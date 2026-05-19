@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-CASH HUB — The Future of Social & Money Making</title>
+    <!-- Tailwind CSS pou bèl design futuriste rapid -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome pou ikon pwofesyonèl -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+        }
+        /* Style pou kache scrollbar la men pou l fonksyone */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Efè pou fòma videyo TikTok vètikal */
+        .video-container {
+            scroll-snap-type: y mandatory;
+            overflow-y: scroll;
+            height: calc(100vh - 128px);
+        }
+        .video-card {
+            scroll-snap-align: start;
+            height: calc(100vh - 128px);
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col justify-between overflow-hidden select-none">
+
+    <!-- 1. MODAL POU CHWAZI LANG (AP PARÈT LÈ MOUN NAN ANTRE PREMYE FWA) -->
+    <div id="language-modal" class="fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center p-6 transition-all duration-300">
+        <div class="text-center max-w-sm w-full space-y-6">
+            <h1 class="text-3xl font-black tracking-wider text-blue-500">G-CASH <span class="text-white">HUB</span></h1>
+            <p class="text-sm text-gray-400">Chwazi lang ou pou w ka kòmanse gade videyo epi fè lajan</p>
+            <div class="space-y-3 pt-4">
+                <button onclick="selectLanguage('Kreyòl')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition">Kreyòl Ayisyen</button>
+                <button onclick="selectLanguage('Français')" class="w-full bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white font-bold py-3.5 rounded-xl transition">Français</button>
+                <button onclick="selectLanguage('English')" class="w-full bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white font-bold py-3.5 rounded-xl transition">English</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOP HEADER -->
+    <header class="w-full h-16 border-b border-gray-800 px-4 flex justify-between items-center bg-black z-40">
+        <h1 class="text-xl font-black tracking-wider text-blue-500">G-CASH <span class="text-white">HUB</span></h1>
+        <div class="flex items-center gap-4">
+            <span id="current-lang" class="text-xs font-bold text-gray-500 uppercase tracking-widest border border-gray-800 px-2 py-1 rounded">LANG</span>
+            <div class="bg-gray-900 border border-blue-900/50 px-3 py-1 rounded-lg flex items-center gap-2">
+                <i class="fa-solid fa-wallet text-blue-400 text-xs"></i>
+                <span class="text-xs font-mono font-bold text-green-400">2,500 HTG</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP INTERFACE -->
+    <div class="flex-1 flex max-w-md w-full mx-auto relative bg-black">
+
+        <!-- A. SEKSYON FIL D'ACTUALITÉ (TIKTOK SCROLL VIEW) -->
+        <main id="app-feed" class="w-full video-container no-scrollbar">
+            
+            <!-- VIDEO 1 -->
+            <div class="video-card w-full relative bg-zinc-900 border-b border-gray-900">
+                <video class="w-full h-full object-cover" loop autoplay muted playsinline src="https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-light-watching-her-phone-42289-large.mp4"></video>
+                
+                <!-- BOUTON SOU KOTE YO (LIKE, COMMENT, SHARE, APRESIYASYON) -->
+                <div class="absolute right-4 bottom-24 flex flex-col items-center gap-5 z-30">
+                    <div class="flex flex-col items-center">
+                        <button onclick="toggleFollow(this)" class="w-10 h-10 bg-gray-900 rounded-full border border-blue-500 flex items-center justify-center text-white"><i class="fa-solid fa-user-plus text-sm"></i></button>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <button onclick="likeVideo(this)" class="w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-red-500 transition"><i class="fa-solid fa-heart text-xl"></i></button>
+                        <span class="text-[11px] font-bold mt-1">12.4K</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <button onclick="openComments()" class="w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-blue-500 transition"><i class="fa-solid fa-comment text-xl"></i></button>
+                        <span class="text-[11px] font-bold mt-1">456</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <button onclick="alert('Lyen videyo sa a kopye nan bwat sekirite w!')" class="w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-green-500 transition"><i class="fa-solid fa-share-nodes text-xl"></i></button>
+                        <span class="text-[11px] font-bold mt-1">Pataje</span>
+                    </div>
+                </div>
+
+                <!-- ENFÒMASYON SOU PAJ KRA KREYE A AK DESKRIPSYON ANBA NÈT -->
+                <div class="absolute bottom-4 left-4 right-16 z-30 space-y-2 bg-gradient-to-t from-black/80 via-black/20 to-transparent p-2 rounded-xl">
+                    <h3 class="font-bold text-sm flex items-center gap-1">@germain_booster <i class="fa-solid fa-circle-check text-blue-500 text-xs"></i></h3>
+                    <p class="text-xs text-gray-300">Premye tès sistèm videyo a sou Vercel pou G-CASH HUB. Tout bagay ap jwe kòrèkteman san lagg.</p>
+                    <div class="flex items-center gap-2 text-[11px] text-blue-400 font-bold">
+                        <i class="fa-solid fa-music"></i> <span>Son Original - G-CASH Hub Studio</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIDEO 2 -->
+            <div class="video-card w-full relative bg-zinc-900 border-b border-gray-900">
+                <video class="w-full h-full object-cover" loop muted playsinline src="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-41767-large.mp4"></video>
+                
+                <div class="absolute right-4 bottom-24 flex flex-col items-center gap-5 z-30">
+                    <div class="flex flex-col items-center"><button onclick="toggleFollow(this)" class="w-10 h-10 bg-gray-900 rounded-full border border-blue-500 flex items-center justify-center text-white"><i class="fa-solid fa-user-plus text-sm"></i></button></div>
+                    <div class="flex flex-col items-center"><button onclick="likeVideo(this)" class="w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:text-red-500 transition"><i class="fa-solid fa-heart text-xl"></i></button><span class="text-[11px] font-bold mt-1">8.9K</span></div>
+                    <div class="flex flex-col items-center"><button onclick="openComments()" class="w-12 h-12 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center text-white transition"><i class="fa-solid fa-comment text-xl"></i></button><span class="text-[11px] font-bold mt-1">112</span></div>
+                </div>
+
+                <div class="absolute bottom-4 left-4 right-16 z-30 space-y-2 bg-gradient-to-t from-black/80 to-transparent p-2">
+                    <h3 class="font-bold text-sm">@elite_creator</h3>
+                    <p class="text-xs text-gray-300">Vire vètikal, pase videyo, bati rezo pa w pou w fè plis revni chak mwa.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- B. SEKSYON KREYE PAJ / KREYE GROUP / KREYE POST (OPTSYON LÈ W KLIME SOU PLUS LA) -->
+        <div id="create-modal" class="hidden absolute inset-0 bg-black/95 z-40 p-6 flex flex-col justify-center space-y-6">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-4">
+                <h2 class="text-lg font-bold">Kreye Kontni & Paj Pa w</h2>
+                <button onclick="closeCreateModal()" class="text-gray-400 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <!-- Fòm pou Kreye Paj -->
+            <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 space-y-3">
+                <h3 class="text-xs font-bold text-blue-500 uppercase tracking-wider">Kreye yon nouvo Paj</h3>
+                <input type="text" id="page-name" placeholder="Bay paj ou a yon non pwofesyonèl..." class="w-full bg-black border border-gray-800 rounded-xl p-3 text-xs focus:outline-none focus:border-blue-500">
+                <button onclick="createPageAction()" class="w-full bg-blue-600 text-white text-xs font-bold py-2 rounded-xl transition">Lanse Paj la</button>
+            </div>
+
+            <!-- Fòm pou Kreye Gwoup -->
+            <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 space-y-3">
+                <h3 class="text-xs font-bold text-green-500 uppercase tracking-wider">Kreye yon nouvo Gwoup</h3>
+                <input type="text" id="group-name" placeholder="Non gwoup kominikasyon an..." class="w-full bg-black border border-gray-800 rounded-xl p-3 text-xs focus:outline-none focus:border-green-500">
+                <button onclick="createGroupAction()" class="w-full bg-green-600 text-white text-xs font-bold py-2 rounded-xl transition">Mete Gwoup la an liy</button>
+            </div>
+
+            <!-- Fòm pou Lage Videyo / Post -->
+            <div class="bg-gray-950 p-4 rounded-xl border border-gray-800 space-y-3">
+                <h3 class="text-xs font-bold text-red-500 uppercase tracking-wider">Lage yon Videyo (MP4)</h3>
+                <input type="text" id="video-url" placeholder="Kole lyen videyo MP4 ou a la..." class="w-full bg-black border border-gray-800 rounded-xl p-3 text-xs focus:outline-none focus:border-red-500">
+                <button onclick="uploadVideoAction()" class="w-full bg-red-600 text-white text-xs font-bold py-2 rounded-xl transition">Pibliye sou Feed la</button>
+            </div>
+        </div>
+
+        <!-- C. KÒMANTÈ MODAL (CHAT DIRÈK SOU VIDEYO A) -->
+        <div id="comments-modal" class="hidden absolute bottom-0 left-0 right-0 bg-zinc-950 rounded-t-3xl p-4 z-50 max-h-[60vh] flex flex-col justify-between">
+            <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                <span class="text-xs font-bold uppercase text-gray-400">Kòmantè ak Mesaj Dirèk</span>
+                <button onclick="closeComments()" class="text-gray-400"><i class="fa-solid fa-chevron-down"></i></button>
+            </div>
+            <div class="flex-1 overflow-y-auto py-3 space-y-3 no-scrollbar text-xs">
+                <div class="bg-black p-2 rounded-lg border border-gray-900">
+                    <strong class="text-blue-400">@michelet_tech:</strong> Sa se yon bèl bagay! Videyo a ap jwe trè byen!
+                </div>
+                <div class="bg-black p-2 rounded-lg border border-gray-900">
+                    <strong class="text-blue-400">@nadia_g:</strong> Pwojè sa a ap kraze brik nan peyi a!
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2 border-t border-gray-900">
+                <input type="text" placeholder="Ekri yon kòmantè dirèk..." class="w-full bg-black border border-gray-800 rounded-xl px-3 text-xs focus:outline-none">
+                <button onclick="alert('Mesaj ou voye ale nan baz done a!')" class="bg-blue-600 px-4 rounded-xl text-xs"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TIKTOK BOTTOM NAV BAR -->
+    <nav class="w-full h-16 border-t border-gray-800 bg-black flex justify-around items-center px-4 max-w-md mx-auto z-40">
+        <button onclick="alert('Ou deja sou paj lakay la!')" class="flex flex-col items-center gap-1 text-blue-500">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span class="text-[10px]">Home</span>
+        </button>
+        <button onclick="alert('Sistèm Rechèch ak Gwoup ap prepare...')" class="flex flex-col items-center gap-1 text-gray-400">
+            <i class="fa-solid fa-magnifying-glass text-lg"></i>
+            <span class="text-[10px]">Discover</span>
+        </button>
+        
+        <!-- BOUTON PLUS (+) POU KREYE PAJ AK LAGE VIDEO -->
+        <button onclick="openCreateModal()" class="w-12 h-8 bg-gradient-to-r from-blue-500 via-white to-red-500 p-0.5 rounded-lg flex items-center justify-center transition active:scale-95">
+            <div class="w-full h-full bg-black rounded-[6px] flex items-center justify-center text-white">
+                <i class="fa-solid fa-plus text-sm"></i>
+            </div>
+        </button>
+        
+        <button onclick="openComments()" class="flex flex-col items-center gap-1 text-gray-400 relative">
+            <i class="fa-solid fa-inbox text-lg"></i>
+            <span class="text-[10px]">Inbox</span>
+            <span class="absolute top-0 right-1 bg-blue-600 text-[8px] px-1 rounded-full">2</span>
+        </button>
+        <button onclick="openCreateModal()" class="flex flex-col items-center gap-1 text-gray-400">
+            <i class="fa-solid fa-circle-user text-lg"></i>
+            <span class="text-[10px]">Paj Mwen</span>
+        </button>
+    </nav>
+
+    <!-- SCRIPT JAVASCRIPT POU TOUT OPTION YO MACHE -->
+    <script>
+        // Jere Seleksyon Lang lan
+        function selectLanguage(lang) {
+            document.getElementById('current-lang').innerText = lang;
+            document.getElementById('language-modal').classList.add('hidden');
+            
+            // Jwe premye videyo a otomatikman apre chwa lang lan
+            const firstVideo = document.querySelector('video');
+            if (firstVideo) {
+                firstVideo.play().catch(error => console.log("Otoplay bloke pa navigatè a"));
+            }
+        }
+
+        // Jere bouton Like vèt la
+        function likeVideo(btn) {
+            btn.classList.toggle('text-red-500');
+        }
+
+        // Jere bouton Abòne a
+        function toggleFollow(btn) {
+            if(btn.innerHTML.includes('user-plus')) {
+                btn.innerHTML = '<i class="fa-solid fa-user-check text-xs text-green-400"></i>';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-user-plus text-xs"></i>';
+            }
+        }
+
+        // Louvri ak kache Modal kreyasyon yo (Plis la)
+        function openCreateModal() {
+            document.getElementById('create-modal').classList.remove('hidden');
+        }
+        function closeCreateModal() {
+            document.getElementById('create-modal').classList.add('hidden');
+        }
+
+        // Louvri ak kache Kòmantè yo
+        function openComments() {
+            document.getElementById('comments-modal').classList.remove('hidden');
+        }
+        function closeComments() {
+            document.getElementById('comments-modal').classList.add('hidden');
+        }
+
+        // Aksyon fòm yo
+        function createPageAction() {
+            const name = document.getElementById('page-name').value;
+            if(name.trim() === "") { alert("Silvouplè bay paj la yon non!"); return; }
+            alert("Paj '" + name + "' la kreye avèk siksè sou rezo a!");
+            document.getElementById('page-name').value = "";
+            closeCreateModal();
+        }
+
+        function createGroupAction() {
+            const name = document.getElementById('group-name').value;
+            if(name.trim() === "") { alert("Silvouplè bay gwoup la yon non!"); return; }
+            alert("Gwoup '" + name + "' la pare. Ou kapab ekri moun ladan l dirèkteman!");
+            document.getElementById('group-name').value = "";
+            closeCreateModal();
+        }
+
+        function uploadVideoAction() {
+            const url = document.getElementById('video-url').value;
+            if(url.trim() === "") { alert("Silvouplè mete yon lyen videyo MP4!"); return; }
+            alert("Sistèm sekirite G-CASH: Videyo ou an ap trete pou parèt sou feed la!");
+            document.getElementById('video-url').value = "";
+            closeCreateModal();
+        }
+
+        // Otomatikman jwe/poz videyo yo lè moun lan ap scrolle (menm jan ak TikTok)
+        document.getElementById('app-feed').addEventListener('scroll', function() {
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                const rect = video.getBoundingClientRect();
+                if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
